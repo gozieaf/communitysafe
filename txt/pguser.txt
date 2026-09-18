@@ -1,7 +1,7 @@
 # Local PostgreSQL connection details
 HOST=localhost
 PORT=5432
-DATABASE=geodb
-USER=geoapp
-PASSWORD=4620914b6ffb7dbeb29062665f0d8390fface0178a16851f9811a93f204d4a3e
+DATABASE=databasename
+USER=username
+PASSWORD=yourpassword
 SSL_MODE=disable
