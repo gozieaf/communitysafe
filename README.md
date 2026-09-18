@@ -1,6 +1,6 @@
-# GeoApp
+# CommunitySafe
 
-Cloud-hosted map data viewer. The API uses FastAPI and Aiven PostgreSQL/PostGIS; the web application deploys separately to Vercel.
+Cloud-hosted community resource map viewer and member platform. The API uses FastAPI and Aiven PostgreSQL/PostGIS; the web application deploys separately to Vercel.
 
 ## Backend setup
 
