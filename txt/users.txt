@@ -1,16 +1,16 @@
 # Local CommunitySafe application accounts
 
 [admin]
-EMAIL=admin.geoapp@gmail.com
-PASSWORD=GeoAppAdmin!2026
+EMAIL=adminemail
+PASSWORD=adminpassword
 ROLE=admin
 
 [demo]
-EMAIL=demo.geoapp@gmail.com
-PASSWORD=GeoAppDemo!2026
+EMAIL=useremail
+PASSWORD=userpassword
 ROLE=viewer
 
 [api-test]
-EMAIL=api-test-374661c1814a4f16b4d42987082f64d8@gmail.com
-PASSWORD=LocalApiTest!2026
+EMAIL=apiemail
+PASSWORD=apipassword
 ROLE=viewer
