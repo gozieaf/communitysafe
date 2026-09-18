@@ -3,10 +3,10 @@ import re
 import uuid
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile, status
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile, status
 from sqlalchemy import text
 
-from app.api.deps import DbSession, require_admin
+from app.api.deps import CurrentUser, DbSession, require_admin
 from app.core.config import get_settings
 from app.db.models import Layer, User
 from app.schemas.layer import LayerOut, LayerUploadResponse
@@ -24,12 +24,13 @@ def quoted_table_name(table_name: str) -> str:
 
 
 @router.get("/layers", response_model=list[LayerOut])
-def list_layers(db: DbSession) -> list[Layer]:
-    return list(db.query(Layer).order_by(Layer.created_at.desc()).all())
+def list_layers(_: CurrentUser, db: DbSession) -> list[dict]:
+    layers = db.query(Layer).order_by(Layer.created_at.desc()).all()
+    return [{"id": layer.id, "name": layer.name, "description": layer.description, "author": layer.uploader.email if layer.uploader else None, "author_verified": layer.uploader.is_verified if layer.uploader else False, "geometry_type": layer.geometry_type, "style": layer.style, "created_at": layer.created_at} for layer in layers]
 
 
 @router.get("/features/{layer_id}")
-def get_features(layer_id: uuid.UUID, db: DbSession, bbox: Annotated[str | None, Query()] = None) -> dict:
+def get_features(layer_id: uuid.UUID, _: CurrentUser, db: DbSession, bbox: Annotated[str | None, Query()] = None) -> dict:
     layer = db.get(Layer, layer_id)
     if layer is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Layer not found")
@@ -48,7 +49,7 @@ def get_features(layer_id: uuid.UUID, db: DbSession, bbox: Annotated[str | None,
 
 
 @admin_router.post("/layers", response_model=LayerUploadResponse, status_code=status.HTTP_201_CREATED)
-async def upload_layer(db: DbSession, current_user: Annotated[User, Depends(require_admin)], file: UploadFile = File(...)) -> LayerUploadResponse:
+async def upload_layer(db: DbSession, current_user: Annotated[User, Depends(require_admin)], file: UploadFile = File(...), layer_name: Annotated[str | None, Form()] = None, description: Annotated[str | None, Form()] = None) -> LayerUploadResponse:
     collection = await read_upload_as_feature_collection(file, get_settings().upload_max_bytes)
     first_geometry = collection["features"][0]["geometry"]
     geometry_type = first_geometry.get("type")
@@ -56,7 +57,10 @@ async def upload_layer(db: DbSession, current_user: Annotated[User, Depends(requ
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail="Geometry type is missing")
     table_name = f"layer_{uuid.uuid4().hex[:12]}"
     table = quoted_table_name(table_name)
-    layer = Layer(name=(file.filename or "Untitled layer")[:255], table_name=table_name, geometry_type=geometry_type, uploaded_by=current_user.id)
+    display_name = (layer_name or Path(file.filename or "Untitled layer").stem).strip()[:255]
+    if not display_name:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail="Layer name is required")
+    layer = Layer(name=display_name, description=description.strip() if description else None, table_name=table_name, geometry_type=geometry_type, uploaded_by=current_user.id)
     try:
         db.execute(text(f"CREATE TABLE {table} (id bigserial PRIMARY KEY, properties jsonb NOT NULL DEFAULT '{{}}'::jsonb, geom geometry(Geometry, 4326) NOT NULL)"))
         for feature in collection["features"]:
@@ -68,7 +72,7 @@ async def upload_layer(db: DbSession, current_user: Annotated[User, Depends(requ
     except Exception:
         db.rollback()
         raise
-    return LayerUploadResponse(id=layer.id, name=layer.name, feature_count=len(collection["features"]))
+    return LayerUploadResponse(id=layer.id, name=layer.name, description=layer.description, author=current_user.email, created_at=layer.created_at, feature_count=len(collection["features"]))
 
 
 @admin_router.delete("/layers/{layer_id}", status_code=status.HTTP_204_NO_CONTENT)

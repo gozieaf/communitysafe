@@ -21,4 +21,6 @@ For Watsonx Assistant, copy the `integrationID`, `region`, and `serviceInstanceI
 Run `pytest` from `backend/` for the focused unit tests. The production API runtime must include `ogr2ogr` for GeoPackage and zipped Shapefile uploads; GeoJSON uploads need no GDAL executable.
 
 See [the production runbook](docs/github-vercel-production.md) before deployment.
+See [the IBM Code Engine serverless runbook](docs/ibm-code-engine-serverless.md) for the IBM Cloud deployment path.
+See [the complete production deployment steps](docs/production-deployment.md) for environment, SMTP, PostGIS, IBM, and Vercel configuration.
 Run [the release preflight](docs/release-preflight.md) before the first production release.

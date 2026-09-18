@@ -7,6 +7,9 @@ from pydantic import BaseModel, Field
 class LayerOut(BaseModel):
     id: UUID
     name: str
+    description: str | None
+    author: str | None
+    author_verified: bool = False
     geometry_type: str
     style: dict | None
     created_at: datetime
@@ -15,6 +18,9 @@ class LayerOut(BaseModel):
 class LayerUploadResponse(BaseModel):
     id: UUID
     name: str
+    description: str | None
+    author: str | None
+    created_at: datetime
     feature_count: int
 
 

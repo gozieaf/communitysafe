@@ -2,16 +2,18 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
-from app.api import auth, layers
+from app.api import auth, layers, members
 from app.core.config import get_settings
 from app.db.session import SessionLocal
 
 settings = get_settings()
 app = FastAPI(title="GeoApp API", version="0.1.0")
-app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins, allow_credentials=True, allow_methods=["GET", "POST", "DELETE"], allow_headers=["Authorization", "Content-Type"])
+app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins, allow_credentials=True, allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"], allow_headers=["Authorization", "Content-Type"])
 app.include_router(auth.router)
+app.include_router(auth.admin_router)
 app.include_router(layers.router)
 app.include_router(layers.admin_router)
+app.include_router(members.router)
 
 
 @app.get("/health", tags=["system"])

@@ -7,7 +7,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", case_sensitive=False, extra="ignore")
+    model_config = SettingsConfigDict(env_file=(".env", ".env.local"), case_sensitive=False, extra="ignore")
 
     database_url: str
     pgsslrootcert: Path | None = None
@@ -18,6 +18,12 @@ class Settings(BaseSettings):
     upload_max_bytes: int = Field(default=50 * 1024 * 1024, ge=1)
     cookie_secure: bool = True
     cookie_samesite: Literal["lax", "strict", "none"] = "none"
+    smtp_host: str | None = None
+    smtp_port: int = Field(default=587, ge=1, le=65535)
+    smtp_username: str | None = None
+    smtp_password: str | None = None
+    smtp_from: str | None = None
+    public_api_url: str = "http://localhost:8000"
 
     @field_validator("cors_origins", mode="before")
     @classmethod
