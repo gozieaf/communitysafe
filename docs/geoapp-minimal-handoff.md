@@ -1,4 +1,4 @@
-# GeoApp — Minimal Build Spec
+# CommunitySafe — Minimal Build Spec
 
 ## Architecture
 
