@@ -24,3 +24,6 @@ See [the production runbook](docs/github-vercel-production.md) before deployment
 See [the IBM Code Engine serverless runbook](docs/ibm-code-engine-serverless.md) for the IBM Cloud deployment path.
 See [the complete production deployment steps](docs/production-deployment.md) for environment, SMTP, PostGIS, IBM, and Vercel configuration.
 Run [the release preflight](docs/release-preflight.md) before the first production release.
+
+CommunitySafe by [Giseria](github.com/Giseria). (C) 2026. For more information contact [Emmanuel Ani](mailto:aniemmanuelc@gmail.com)
+Learn more about Giseria | [Facebook] (facebook.com/Giseria) | [YouTube](youtube.com/@Giseria)
