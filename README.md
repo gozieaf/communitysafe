@@ -27,6 +27,6 @@ See [the complete production deployment steps](docs/production-deployment.md) fo
 Run [the release preflight](docs/release-preflight.md) before the first production release.
 
 ## Contact
-CommunitySafe by [Giseria](https://github.com/Giseria). (C) 2026. For more information contact [Emmanuel Ani](mailto:aniemmanuelc@gmail.com).
+CommunitySafe (2026. v0.1) by [Giseria](https://github.com/Giseria). For more information contact [Emmanuel Ani](mailto:aniemmanuelc@gmail.com).
 
 Learn more about Giseria: [Facebook](https://facebook.com/Giseria) | [YouTube](https://youtube.com/@Giseria)
