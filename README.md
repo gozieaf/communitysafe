@@ -26,5 +26,6 @@ See [the IBM Code Engine serverless runbook](docs/ibm-code-engine-serverless.md)
 See [the complete production deployment steps](docs/production-deployment.md) for environment, SMTP, PostGIS, IBM, and Vercel configuration.
 Run [the release preflight](docs/release-preflight.md) before the first production release.
 
+## Contact
 CommunitySafe by [Giseria](github.com/Giseria). (C) 2026. For more information contact [Emmanuel Ani](mailto:aniemmanuelc@gmail.com)
 Learn more about Giseria: [Facebook](https://facebook.com/Giseria) | [YouTube](youtube.com/@Giseria)
