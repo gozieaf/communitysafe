@@ -28,4 +28,4 @@ Run [the release preflight](docs/release-preflight.md) before the first producti
 
 ## Contact
 CommunitySafe by [Giseria](https://github.com/Giseria). (C) 2026. For more information contact [Emmanuel Ani](mailto:aniemmanuelc@gmail.com)
-Learn more about Giseria: [Facebook](https://facebook.com/Giseria) | [YouTube](youtube.com/@Giseria)
+Learn more about Giseria: [Facebook](https://facebook.com/Giseria) | [YouTube](https://youtube.com/@Giseria)
